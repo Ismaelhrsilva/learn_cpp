@@ -6,48 +6,45 @@
 /*   By: ishenriq <ishenriq@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 19:51:22 by ishenriq          #+#    #+#             */
-/*   Updated: 2024/10/17 20:37:48 by ishenriq         ###   ########.fr       */
+/*   Updated: 2024/10/26 09:52:06 by ishenriq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-// Códigos de escape ANSI
-const std::string _GREEN = "\033[42m"; // Verde
-const std::string _RESET = "\033[0m";   // Reset
-class Car
+
+// Declaring our base Vehicle class
+class Vehicle
 {
-    public:
-        Car(); // Constructor declaration
-        Car(std::string pbrand, std::string pmodel, int pyear); // second constructor
-        std::string brand;
-        std::string model;
-        int year;
+	public:
+		Vehicle(std::string type);
+		std::string type;
+	private:
 };
 
-Car::Car(void)
+// Declaring our Car class that publicly extends our Vehicle class
+class Car : public Vehicle
 {
-    std::cout << "Hello world !" << std::endl;
-    brand = "";
-    model = "";
-    year= 0;
-    return ;
+	public:
+		Car(void);
+	private:
+};
+
+// Simple operator overload for output stream
+// as you can see, we say that we need a Vehicle on the right
+// side of the << operator
+std::ostream &operator<<(std::ostream &o, const Vehicle &v)
+{
+	o << "This is a vehicle of type " << v.type;
+	return (o);
 }
 
-Car::Car(std::string pbrand, std::string pmodel, int pyear)
+// Constructors
+Vehicle::Vehicle(std::string type): type(type) {}
+Car::Car(void) : Vehicle("Car") {}
+
+int	main(void)
 {
-    brand = pbrand;
-    model = pmodel;
-    year = pyear;
-    return ;
-}
-
-int main() {
-  // Create Car objects and call the constructor with different values
-  Car car1;
-  Car car2("Ford", "Mustang", 1969);
-
-  // Print values
-  std::cout << _GREEN << car1.brand << " " << car1.model << " " << car1.year << std::endl;
-  std::cout << car2.brand << " " << _RESET << car2.model << " " << car2.year << std::endl;
-  return 0;
+	Car car;
+	std::cout << car << std::endl;
+	return (0);
 }
